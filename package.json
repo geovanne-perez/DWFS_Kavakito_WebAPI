@@ -2,17 +2,19 @@
   "name": "webapi",
   "version": "1.0.0",
   "description": "Micro site to trade your car for a new shit",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo 'Error: no test specified' && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "JGPM",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.2"
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongodb": "^6.12.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
