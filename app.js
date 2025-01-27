@@ -1,35 +1,24 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const { MongoClient, ObjectId } = require('mongodb'); 
 
-const puerto = 3000;
+const port = process.env.PORT || 3000;
 
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// users routes
-app.get('/', (req, res) => {
-  res.send('API running');
-});
+// Call Routes
+const userRoutes = require('./routes/user.routes');
+const apiRoutes = require('./routes/api.routes'); 
+
+(async () => {
+  app.use('/api', apiRoutes);
+  app.use('/api', userRoutes);
+})();
 
 
-app.get('/users', (req, res) => {
-  res.send('API get response');
-});
-
-app.post('/users', (req, res) => {
-  res.send('API post response');
-});
-
-app.put('/users', (req, res) => {
-  res.send('API put response');
-}); 
-
-app.delete('/users', (req, res) => {
-  res.send('API delete response');
-});
-
-app.listen(puerto, () => {
-  console.log('Servidor escuchando en http://localhost:' + puerto);
+app.listen(port, () => {
+  console.log('Server running at http://localhost:' + port);
 });
