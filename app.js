@@ -1,10 +1,12 @@
 const express = require("express");
 require("dotenv").config();
 const app = express();
+const cors = require('cors') // importamos CORS
 const port = process.env.PORT || 3000;
 //const { MongoClient, ObjectId } = require('mongodb');
 
 //Middlewares
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

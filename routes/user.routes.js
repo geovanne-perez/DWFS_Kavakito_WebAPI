@@ -9,8 +9,6 @@ const {
 
 router.get("/users", userGet);
 
-router.get("/users/:id", userGet);
-
 router.post("/users", userPost);
 
 router.put("/users", userPut);
