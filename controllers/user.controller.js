@@ -2,41 +2,28 @@ const { response, request } = require("express");
 const User = require("../models/user.model");
 
 const userGet = async (req = request, res = response) => {
-  console.log(req);
   try {
-    const { id } = req.query;
-    if (id) {
-      const user = await User.findById(id);
-      if (!user) {
-        return res.status(404).json({
-          message: "User not found",
-        });
-      }
-      res.status(200).json({
-        message: "User retrieved successfully",
-        data: user,
-      });
-    }
-    else {
     const users = await User.find();
-    console.log(users);
-    if (!users||users.length==0) {
-      return res.status(404).json({
-        message: "No users found",
-      });
+    if (!users || users.length === 0) {
+      return res.status(404).json({ message: "No users found" });
     }
-    res.status(200).json({
-      message: "Users retrieved successfully",
-      data: users,
-    });
-    }
-    
+    res.status(200).json({ message: "Users retrieved successfully", data: users });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      message: "Error getting users",
-      error,
-    });
+    console.error(error);
+    res.status(500).json({ message: "Error getting users", error });
+  }
+};
+
+const userGetByID = async (req = request, res = response) => {
+  try {
+    const user = await User.findById(req.params.id); 
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "User retrieved successfully", data: user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error getting user", error });
   }
 };
 
@@ -60,8 +47,9 @@ const userPost = async (req = request, res = response) => {
 
 const userPut = async (req = request, res = response) => {
   try {
-    const { id } = req.query;
-    if (!id) {
+  const id = req.params.id;
+    console.log(id);
+    if (!id || id === "") {
       return res.status(400).json({
         message: "Id is required",
       });
@@ -84,7 +72,7 @@ const userPut = async (req = request, res = response) => {
 
 const userDelete = async (req = request, res = response) => {
   try {
-    const { id } = req.query;
+    const id = req.params.id;
     const user = await User.findByIdAndDelete(id);
     if (!user) {
       return res.status(404).json({
@@ -105,6 +93,7 @@ const userDelete = async (req = request, res = response) => {
 
 module.exports = {
   userGet,
+  userGetByID,
   userPost,
   userPut,
   userDelete,
