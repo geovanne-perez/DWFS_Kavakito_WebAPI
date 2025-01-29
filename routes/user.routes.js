@@ -53,6 +53,8 @@ const {
  *            type: array
  *            items:
  *              $ref: '#/components/schemas/User'
+ *    404:
+ *     description: User not found
  * 
  *    500:
  *      description: Error getting users
@@ -99,7 +101,6 @@ const {
  *        application/json:
  *          schema:
  *            $ref: '#/components/schemas/User'
- * 
  *    500:
  *      description: Error updating user
  * 
@@ -115,6 +116,8 @@ const {
  *   responses:
  *    200:
  *      description: User deleted successfully
+ *    404:
+ *     description: User not found
  * 
  *    500:
  *      description: Error deleting user
