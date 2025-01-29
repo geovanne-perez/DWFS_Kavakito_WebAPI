@@ -1,9 +1,12 @@
 const { response, request } = require("express");
 const User = require("../models/user.model");
+const bcryptjs = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const userGet = async (req = request, res = response) => {
   try {
-    const users = await User.find();
+    const _active = req.query.active || true;
+    const users = await User.find({active:_active}, '-password'); // Exclude the password field
     if (!users || users.length === 0) {
       return res.status(404).json({ message: "No users found" });
     }
@@ -15,8 +18,20 @@ const userGet = async (req = request, res = response) => {
 };
 
 const userGetByID = async (req = request, res = response) => {
-  try {
-    const user = await User.findById(req.params.id); 
+  try {    const _active = req.query.active; // No default value here
+
+    let query = { _id: req.params.id }; // Start with the ID
+
+    if (_active === 'true' || _active === undefined || _active === null) { // Handle true or null/undefined
+      query.active = true;
+    } else if (_active === 'false') {
+      query.active = false;
+    } else {
+        return res.status(400).json({ message: "Invalid active parameter. Use 'true' or 'false'"});
+    }
+
+    const user = await User.findOne(query, '-password'); // Use findOne with the combined query
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -29,12 +44,23 @@ const userGetByID = async (req = request, res = response) => {
 
 const userPost = async (req = request, res = response) => {
   try {
-    const body = req.body;
-    let user = new User(body);
-    await user.save();
+    const { name, email, password } = req.body 
+    const salt = await bcryptjs.genSalt(10)
+    const hashedPassword = await bcryptjs.hash(password, salt)
+
+    const DBResponse = await User.create({
+      name, 
+      email, 
+      password: hashedPassword,
+      active: true
+    })
+
+    // Remove password from DBResponse
+    const { password: _, ...user } = DBResponse.toObject();
+
     res.status(201).json({
       message: "User created successfully",
-      data: user,
+      data: user
     });
   } catch (error) {
     console.log(error);

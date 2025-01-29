@@ -37,8 +37,15 @@ const {
  *   description: User management
  * /users:
  *   get:
- *     summary: Get all users, or a single user by id
+ *     summary: Get all users
  *     tags: [Users]
+ *     parameters:
+ *       - in: query
+ *         name: active
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Set to false to get inactive users
  *     responses:
  *       200:
  *         description: Users retrieved successfully
@@ -81,6 +88,12 @@ const {
  *           type: string
  *         required: true
  *         description: ID of the user to retrieve
+ *       - in: query
+ *         name: active
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Set to false to get inactive users
  *     responses:
  *       200:
  *         description: User retrieved successfully

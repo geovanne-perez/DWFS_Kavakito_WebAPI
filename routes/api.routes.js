@@ -1,11 +1,53 @@
-const { Router } = require('express')
-const router = Router()
+const { Router } = require("express");
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Login:
+ *       type: object
+ *       required:
+ *        - name
+ *        - password
+ *       properties:
+ *         name:
+ *           type: string
+ *         password:
+ *           type: string
+ */
+
+const router = Router();
+const { login } = require("../controllers/session.controller");
 
 // API routes
-router.get('/', (req, res) => {
-    res.send('API running');
-  });
+router.get("/", (req, res) => {
+  res.send("API running");
+});
 
+/**
+ * @swagger
+ * tags:
+ *   name: Login
+ *   description: User login
+ * /login:
+ *   post:
+ *     summary: User login
+ *     tags: [Login]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Login'
+ *     responses:
+ *       200:
+ *         description: Login successful
+ *       400:
+ *         description: Invalid credentials
+ *       500:
+ *         description: Error logging in
+ */
+// login route
+router.post("/login", login);
 
 module.exports = router;

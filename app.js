@@ -2,8 +2,6 @@ const express = require("express");
 require("dotenv").config();
 const app = express();
 const cors = require('cors') // importamos CORS
-const bcryptjs = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const port = process.env.PORT || 3000;
 
 // Call Swagger
