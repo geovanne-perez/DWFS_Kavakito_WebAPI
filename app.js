@@ -3,7 +3,13 @@ require("dotenv").config();
 const app = express();
 const cors = require('cors') // importamos CORS
 const port = process.env.PORT || 3000;
-//const { MongoClient, ObjectId } = require('mongodb');
+
+// Call Swagger
+bodyParser = require("body-parser"),
+swaggerJsdoc = require("swagger-jsdoc"),
+swaggerUi = require("swagger-ui-express");
+swaggerConfig = require("./swaggerConfig");
+
 
 //Middlewares
 app.use(cors())
@@ -21,6 +27,14 @@ const { dbConnection } = require("./database/config");
   app.use("/api", userRoutes);
 })();
 
+const specs = swaggerJsdoc(swaggerConfig.options);
+app.use(
+  "/api/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs, { explorer: true })
+);
+
 app.listen(port, () => {
   console.log("Server running at http://localhost:" + port);
+  console.log("API documentation at http://localhost:" + port + "/api/docs");
 });

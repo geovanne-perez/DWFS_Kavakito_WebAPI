@@ -2,10 +2,16 @@ const { response, request } = require("express");
 const User = require("../models/user.model");
 
 const userGet = async (req = request, res = response) => {
+  console.log(req);
   try {
     const { id } = req.query;
     if (id) {
       const user = await User.findById(id);
+      if (!user) {
+        return res.status(404).json({
+          message: "User not found",
+        });
+      }
       res.status(200).json({
         message: "User retrieved successfully",
         data: user,
@@ -13,6 +19,12 @@ const userGet = async (req = request, res = response) => {
     }
     else {
     const users = await User.find();
+    console.log(users);
+    if (!users||users.length==0) {
+      return res.status(404).json({
+        message: "No users found",
+      });
+    }
     res.status(200).json({
       message: "Users retrieved successfully",
       data: users,
