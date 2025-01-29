@@ -7,10 +7,10 @@ const { Router } = require("express");
  *     Login:
  *       type: object
  *       required:
- *        - name
+ *        - username
  *        - password
  *       properties:
- *         name:
+ *         username:
  *           type: string
  *         password:
  *           type: string
@@ -19,9 +19,9 @@ const { Router } = require("express");
 const router = Router();
 const { login } = require("../controllers/session.controller");
 
-// API routes
+// API test route
 router.get("/", (req, res) => {
-  res.send("API running");
+  res.send("API running, Documentation available at /api/docs");
 });
 
 /**

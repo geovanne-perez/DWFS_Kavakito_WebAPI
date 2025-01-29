@@ -7,11 +7,11 @@ const { Router } = require("express");
  *     User:
  *       type: object
  *       required:
- *        - name
+ *        - username
  *        - email
  *        - password
  *       properties:
- *         name:
+ *         username:
  *           type: string
  *         email:
  *           type: string
@@ -45,7 +45,7 @@ const {
  *         schema:
  *           type: string
  *         required: false
- *         description: Set to false to get inactive users
+ *         description: Set to false to find inactive users
  *     responses:
  *       200:
  *         description: Users retrieved successfully
@@ -93,7 +93,7 @@ const {
  *         schema:
  *           type: string
  *         required: false
- *         description: Set to false to get inactive users
+ *         description: Set to false to find inactive users
  *     responses:
  *       200:
  *         description: User retrieved successfully

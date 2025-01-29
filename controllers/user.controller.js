@@ -44,12 +44,12 @@ const userGetByID = async (req = request, res = response) => {
 
 const userPost = async (req = request, res = response) => {
   try {
-    const { name, email, password } = req.body 
+    const { username, email, password } = req.body 
     const salt = await bcryptjs.genSalt(10)
     const hashedPassword = await bcryptjs.hash(password, salt)
 
     const DBResponse = await User.create({
-      name, 
+      username: username, 
       email, 
       password: hashedPassword,
       active: true
@@ -81,9 +81,12 @@ const userPut = async (req = request, res = response) => {
       });
     }
     const updatedUser = await User.findByIdAndUpdate(id,req.body,{new:true});
+    // Remove password from updatedUser
+    const { password: _, ...user } = updatedUser.toObject();
+
     res.json({
       message: "User updated successfully",
-      data: updatedUser,
+      data: user,
     });
     
   } catch (error) {

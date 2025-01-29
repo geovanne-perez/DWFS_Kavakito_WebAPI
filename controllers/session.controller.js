@@ -5,13 +5,13 @@ const jwt = require('jsonwebtoken')
 
 const login = async (req = request, res = response) => {
     try {
-        const { name, password } = req.body
-        if (!name || !password) {
+        const { username, password } = req.body
+        if (!username || !password) {
             return res.status(400).json({
                 message: "Name and password are required"
             })
         }
-        const user = await User.findOne({ name, active: true })
+        const user = await User.findOne({ username: username, active: true })
         if (!user) {
             return res.status(400).json({
                 message: "User not found"
