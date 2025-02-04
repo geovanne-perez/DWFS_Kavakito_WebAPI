@@ -1,4 +1,6 @@
 const { Router } = require("express");
+const router = Router();
+const auth = require("../middleware/authentication");
 
 /**
  * @swagger
@@ -21,7 +23,6 @@ const { Router } = require("express");
  *           type: boolean
  */
 
-const router = Router();
 const {
   userGet,
   userGetByID,
@@ -46,6 +47,8 @@ const {
  *           type: string
  *         required: false
  *         description: Set to false to find inactive users
+ *     security:
+ *         BearerAuth: []
  *     responses:
  *       200:
  *         description: Users retrieved successfully
@@ -68,6 +71,8 @@ const {
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/User'
+ *     security:
+ *         BearerAuth: []
  *     responses:
  *       201:
  *         description: User created successfully
@@ -94,6 +99,8 @@ const {
  *           type: string
  *         required: false
  *         description: Set to false to find inactive users
+ *     security:
+ *         BearerAuth: []
  *     responses:
  *       200:
  *         description: User retrieved successfully
@@ -121,6 +128,8 @@ const {
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/User'
+ *     security:
+ *         BearerAuth: []
  *     responses:
  *       200:
  *         description: User updated successfully
@@ -140,6 +149,8 @@ const {
  *           type: string
  *         required: true
  *         description: The user ID
+ *     security:
+ *         BearerAuth: []
  *     responses:
  *       200:
  *         description: User deleted successfully
@@ -149,10 +160,10 @@ const {
  *         description: Error deleting user
  */
 
-router.get("/users", userGet);
-router.get("/users/:id", userGetByID);
-router.post("/users", userPost);
-router.put("/users/:id", userPut);
-router.delete("/users/:id", userDelete);
+router.get("/users",auth, userGet);
+router.get("/users/:id",auth, userGetByID);
+router.post("/users",auth, userPost);
+router.put("/users/:id",auth, userPut);
+router.delete("/users/:id",auth, userDelete);
 
 module.exports = router;
