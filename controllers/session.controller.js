@@ -37,7 +37,35 @@ const login = async (req = request, res = response) => {
         })
     }
 }
+const checkToken = async (req = request, res = response, next) => {
+    try {
+        const token = req.header('Authorization');
+        if (!token) {
+            return res.status(401).json({
+                message: "Token is required"
+            });
+        }
+        const tokenWithoutBearer = token.replace("Bearer ", "");
+        console.log(jwt.verify(tokenWithoutBearer, process.env.SECRET_KEY));
+        const { user } = jwt.verify(tokenWithoutBearer, process.env.SECRET_KEY);
+        console.log(user);
+        req.user = user;
+        //remove user password
+        delete user.password;
+        res.json({
+            message: "Token is valid",
+            user
+        })
+    } catch (error) {
+        console.error(error);
+        res.status(401).json({
+            message: "Invalid token",
+            error
+        });
+    }
+};
 
 module.exports = {
-    login
+    login,
+    checkToken  
 }

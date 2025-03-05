@@ -18,6 +18,7 @@ const { Router } = require("express");
 
 const router = Router();
 const { login } = require("../controllers/session.controller");
+const { checkToken } = require("../controllers/session.controller");
 
 // API test route
 router.get("/", (req, res) => {
@@ -47,8 +48,19 @@ router.get("/", (req, res) => {
  *         description: Invalid credentials
  *       500:
  *         description: Error logging in
+ * /checkToken:
+ *   get:
+ *    summary: Check token
+ *    tags: [Login]
+ *    responses:
+ *     200:
+ *      description: Token is valid
+ *     401:
+ *      description: Invalid token
+ *  
  */
 // login route
 router.post("/login", login);
+router.get("/checkToken", checkToken);
 
 module.exports = router;
