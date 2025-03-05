@@ -47,8 +47,6 @@ const {
  *           type: string
  *         required: false
  *         description: Set to false to find inactive users
- *     security:
- *         BearerAuth: []
  *     responses:
  *       200:
  *         description: Users retrieved successfully
@@ -58,6 +56,8 @@ const {
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/User'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
  *       404:
  *         description: User not found
  *       500:
@@ -71,8 +71,6 @@ const {
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/User'
- *     security:
- *         BearerAuth: []
  *     responses:
  *       201:
  *         description: User created successfully
@@ -99,8 +97,6 @@ const {
  *           type: string
  *         required: false
  *         description: Set to false to find inactive users
- *     security:
- *         BearerAuth: []
  *     responses:
  *       200:
  *         description: User retrieved successfully
@@ -128,8 +124,6 @@ const {
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/User'
- *     security:
- *         BearerAuth: []
  *     responses:
  *       200:
  *         description: User updated successfully
@@ -149,8 +143,6 @@ const {
  *           type: string
  *         required: true
  *         description: The user ID
- *     security:
- *         BearerAuth: []
  *     responses:
  *       200:
  *         description: User deleted successfully

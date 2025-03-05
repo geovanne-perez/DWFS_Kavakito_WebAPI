@@ -1,3 +1,4 @@
+const { response } = require("express");
 
 const port = process.env.PORT || 3000;
 
@@ -21,14 +22,23 @@ const options = {
       },
       components: {
           securitySchemes: {
-              Authorization: {
-                  type: "http",
-                  scheme: "bearer",
-                  bearerFormat: "JWT",
-                  value: "Bearer <JWT token here>"
+            bearerAuth: {
+              type: "http",
+              scheme: "bearer",
+              bearerFormat: "JWT"
               }
-          }
+            },
+          responses: {
+            UnauthorizedError: {
+              description: "Access token is missing or invalid"
+            }
+          }  
       },
+      security: [
+        {
+          bearerAuth: []
+        }
+      ],
       servers: [
         {
           url: "http://localhost:"+port+"/api",

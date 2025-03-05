@@ -39,6 +39,7 @@ router.get("/", (req, res) => {
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/Login'
+ *     security: [] 
  *     responses:
  *       200:
  *         description: Login successful
